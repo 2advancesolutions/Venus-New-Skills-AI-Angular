@@ -1,1 +1,68 @@
-<p>todo-list works!</p>
+<div class="todo-container">
+  <h1>Todo App</h1>
+  
+  <div class="add-todo">
+    <input
+      type="text"
+      [(ngModel)]="newTodoTitle"
+      (keyup.enter)="addTodo()"
+      placeholder="Add a new task..."
+      class="todo-input"
+    />
+    <button (click)="addTodo()" class="add-btn">Add</button>
+  </div>
+
+  <div class="todo-lists">
+    <div class="todo-column">
+      <h2>Active Tasks</h2>
+      <div
+        id="active-list"
+        cdkDropList
+        [cdkDropListData]="activeTodos"
+        [cdkDropListConnectedTo]="['completed-list']"
+        (cdkDropListDropped)="drop($event)"
+        class="todo-list"
+      >
+        <div
+          *ngFor="let todo of activeTodos"
+          cdkDrag
+          class="todo-item"
+        >
+          <div class="todo-content">
+            <span class="todo-title">{{ todo.title }}</span>
+            <div class="todo-actions">
+              <button (click)="toggleTodo(todo.id)" class="complete-btn">✓</button>
+              <button (click)="deleteTodo(todo.id)" class="delete-btn">×</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="todo-column">
+      <h2>Completed Tasks</h2>
+      <div
+        id="completed-list"
+        cdkDropList
+        [cdkDropListData]="completedTodos"
+        [cdkDropListConnectedTo]="['active-list']"
+        (cdkDropListDropped)="drop($event)"
+        class="todo-list"
+      >
+        <div
+          *ngFor="let todo of completedTodos"
+          cdkDrag
+          class="todo-item completed"
+        >
+          <div class="todo-content">
+            <span class="todo-title">{{ todo.title }}</span>
+            <div class="todo-actions">
+              <button (click)="toggleTodo(todo.id)" class="undo-btn">↶</button>
+              <button (click)="deleteTodo(todo.id)" class="delete-btn">×</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
